@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="../font/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ay.css">
+    <style>
+        tr{height:40px;}
+        tr td{border-right: solid thin #ccc; border-bottom: solid thin #ccc;}
+        tr td:last-child{border-right:none;}
+        tr:last-child td{border-bottom: none;}
+        .inp{border: solid thin #9dbfc6;height:25px;}
+    </style>
+</head>
+<body>
+<h2>get方法</h2>
+<button id="getValues" style="padding: 10px;background-color: #e4b9b9">获取绑定值</button>
+<button id="getTexts" style="padding: 10px;background-color: #e4b9b9">获取绑定文本</button>
+<button id="getIndexs" style="padding: 10px;background-color: #e4b9b9">获取绑定索引</button>
+<button id="getItems" style="padding: 10px;background-color: #e4b9b9">获取绑定选项</button>
+<h2>set方法</h2>
+<button id="setValues" style="padding: 10px;background-color: pink">手动设置选中值</button>
+<input type="checkbox" value="java" name="subject" />JAVA
+<input type="checkbox" value="c" name="subject" />C
+<input type="checkbox" value="php" name="subject" />PHP
+<input type="checkbox" value="python" name="subject" />PYTHON
+<input type="checkbox" value="c++" name="subject" />C++
+<input type="checkbox" value="c#" name="subject" />C#
+<p id="pp" style="border: solid thin #ec971f;height:50px;width:200px;"></p>
+<div style="text-align: center;">
+    <h1>家有仙妻</h1>
+    <p style="font-size: 25px;">
+        她总是只留下电话号码<br>
+        总不肯让我送她回家<br>
+        听说你也曾经爱上过她<br>
+        曾经也同样无法自拔<br>
+        你说你学不会假装潇<br>
+        却教我别太早放弃她<br>
+        把过去全说成一段神话<br>
+        然后笑彼此一样的傻<br>
+        我们这么在乎她<br>
+        却被她全部抹煞<br>
+        越疼她越伤心<br>
+        永远得不到回答<br>
+        到底她怎么想<br>
+        应该继续猜测吗<br>
+        还是说全忘了吧<br>
+        找一个承认失恋的方法<br>
+        让心情好好地放个假<br>
+        当你我不小心又想起她<br>
+        就在记忆画一个叉
+    </p>
+</div>
+<table style="width:90%;border: thin solid #ccc;margin: 0 auto;" cellpadding="0" cellspacing="0">
+    <colgroup width="20%"></colgroup>
+    <colgroup width="30%"></colgroup>
+    <colgroup width="20%"></colgroup>
+    <colgroup width="30%"></colgroup>
+    <tr>
+        <td>姓名</td><td>xx</td><td>年龄</td><td>20</td>
+    </tr>
+    <tr>
+        <td>学历</td><td>本科</td><td>爱好</td><td>看书、打篮球、画画</td>
+    </tr>
+    <tr>
+        <td>性别</td><td>男</td><td>籍贯</td><td>江苏南京</td>
+    </tr>
+    <tr>
+        <td>单位</td><td>xxxx科技有限公司</td><td>职位</td>
+        <td style="font-size: 0;">
+            <input type="radio" name="rrr" value="111">
+            <div style="display: inline-block;vertical-align: middle;"><input id="aaa" value="java" class="inp"  style="margin-left: 10px;position: relative;display: inline-block"></div>
+            <div style="display: inline-block;vertical-align: middle;"><input id="bbb" class="inp" value="c" style="width: 100px;"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>学校</td><td>南京理工大学</td><td>组</td><td>机器人小组</td>
+    </tr>
+    <tr>
+        <td>信用</td><td>10</td><td>备注</td><td><textarea rows="4" style="border: thin solid #c4e3f3"></textarea></td>
+    </tr>
+    <tr>
+        <td>取得成绩</td><td>xxx大赛最佳科技奖、最佳进步奖</td><td>参赛地点</td><td>南京</td>
+    </tr>
+</table>
+<div style="text-align: center;margin-top: 50px;">
+    <h1>You're Beautiful</h1>
+    <p style="font-size: 25px;">
+        My life is brilliant.<br>
+        　　我的人生缤纷灿烂。<br>
+        　　My life is brilliant.<br>
+        　　我的人生缤纷灿烂。<br>
+        　　My love is pure.<br>
+        　　我的爱如此纯真。<br>
+        　　I saw an angel.<br>
+        　　因为我见过天使。<br>
+        　　Of that I'm sure.<br>
+        　　对此,我深信不疑。<br>
+        　　She smiled at me on the subway.<br>
+        　　她在地下铁上对着我微笑。<br>
+        　　She was with another man.<br>
+        　　虽然身边伴着另一个男人。<br>
+        　　But I won't lose no sleep on that,<br>
+        　　但我可不会为此辗转难眠，<br>
+        　　'Cause I've got a plan.<br>
+        　　因为我已有心理准备。<br>
+        　　You're beautiful. You're beautiful,<br>
+        　　你就是这么美，你就是这么美，<br>
+        　　You're beautiful, it's true.<br>
+        　　你就是这么的美，这是千真万确。<br>
+        　　I saw your face in a crowded place,<br>
+        　　我曾在人潮拥挤之处瞥见你的脸，<br>
+        　　And I don't know what to do,<br>
+        　　这令我不知所措。<br>
+        　　'Cause I'll never be with you.<br>
+        　　因为我和你永远无法相依。<br>
+        　　Yeah, she caught my eye,<br>
+        　　是啊,我视线被她占据。<br>
+        　　As we walked on by.<br>
+        　　在我们擦身而过的瞬间。<br>
+        　　She could see from my face that I was,<br>
+        　　她应该可以从我的神情看出，<br>
+        　　flying high,<br>
+        　　我欣喜若狂飞上云霄，<br>
+        　　And I don't think that I'll see her again,<br>
+        　　我想,我将再也见不到她。<br>
+        　　But we shared a moment that will last till the end.<br>
+        　　但我们共享了永恒的片刻。<br>
+        　　You're beautiful. You're beautiful.<br>
+        　　你就是这么美 你就是这么美。<br>
+        　　You're beautiful, it's true.<br>
+        　　你就是这么的美 这是千真万确。<br>
+        　　I saw your face in a crowded place,<br>
+        　　我曾在人潮拥挤之处瞥见你的脸<br>
+        　　And I don't know what to do,<br>
+        　　这令我不知所措，<br>
+        　　'Cause I'll never be with you.<br>
+        　　因为我和你永远无法相依。<br>
+        　　You're beautiful. You're beautiful.<br>
+        　　你就是这么美，你就是这么美。<br>
+        　　You're beautiful, it's true.<br>
+        　　你就是这么的美，这是千真万确。<br>
+        　　There must be an angel with a smile on her face,<br>
+        　　我看到了笑起来跟她一模一样的天使，<br>
+        　　When she thought up that I should be with you.<br>
+        　　当她也想到我们应该在一起时。<br>
+        　　But it's time to face the truth,<br>
+        　　但，该是面对事实的时候了，<br>
+        　　I will never be with you.<br>
+        　　我和你永远无法相依。
+    </p>
+</div>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/lodash.code.min.js"></script>
+<script src="js/ay.js"></script>
+</body>
+</html>

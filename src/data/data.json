@@ -1,0 +1,8 @@
+{
+  "code":1,
+  "list":[
+    {"value":"java","label":"JAVA"},{"value":"c","label":"C"},
+    {"value":"php","label":"PHP"},{"value":"python","label":"PYTHON"},
+    {"value":"c++","label":"C++"},{"value":"c#","label":"C#"}
+  ]
+}
