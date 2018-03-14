@@ -1,0 +1,68 @@
+module.exports = {
+    "env": {
+        "browser": true,
+        "node": false,
+        "es6": true,
+        "jquery": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        // 定义对象的set存取器属性时，强制定义get
+        "accessor-pairs": 2,
+        //强制使用一致的缩进 off 或 0：表示不验证规则。warn 或 1：表示验证规则，当不满足时，给警告。error 或 2 ：表示验证规则，不满足时报错
+        "indent": ["error", 4],
+        //指定数组的元素之间要以空格隔开(,后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
+        "array-bracket-spacing": [2, "never"],
+        //在块级作用域外访问块内定义的变量是否报错提示
+        "block-scoped-var": 0,
+        //if while function 后面的{必须与if在同一行，java风格
+        "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+        //双峰驼命名格式
+        "camelcase": [2,{"properties": "always"}],
+        //禁止使用alert confirm prompt
+        "no-alert": 1,
+        //在创建对象字面量时不允许键重复 {a:1,a:1}
+        "no-dupe-keys": 2,
+        //禁止在 function 定义中出现重复的参数
+        "no-dupe-args": "error",
+        "no-duplicate-case": 2,//switch中的case标签不能重复
+        "no-func-assign": 2,//禁止重复的函数声明
+        //禁止出现多个空格
+        "no-multi-spaces": "error",
+        "quotes": ["warn", "double"],
+        //要求或禁止函数圆括号之前有一个空格
+        "space-before-function-paren": ["error", "never"],
+        //禁止未使用过的变量
+        "no-unused-vars": "error",
+        //要求或禁止使用拖尾逗号
+        "comma-dangle": ["error", "never"],
+        //要求或禁止文件末尾保留一行空行
+        "eol-last": ["error", "always"],
+        //要求中缀操作符周围有空格
+        "space-infix-ops": ["error", {"int32Hint": true }],
+        "no-empty-function": "error",
+        //不允许初始化变量值为 undefined
+        "no-undef-init": "error",
+        //不允许使用undefined变量
+        "no-undefined": "error",
+        //强制在 switch 的冒号左右有空格
+        "switch-colon-spacing": "error",
+        //该规则强制分号出现在配置的位置
+        "semi-style": ["error", "last"],
+        //禁止重复导入
+        "no-duplicate-imports": "error",
+        //不允许类成员中有重复的名称
+        "no-dupe-class-members": "error",
+        //要求箭头函数的箭头之前或之后有空格
+        "arrow-spacing": "error",
+        //禁用 console
+        "no-console": ["warn", { allow: ["warn", "error"] }]
+    }
+};
