@@ -20,11 +20,14 @@
     "block-scoped-var": 0,
     "brace-style": [2, "1tbs", { "allowSingleLine": true }],
     "camelcase": [2,{"properties": "always"}],
-    "no-alert": 1,
+    "no-alert": "error",
+    "no-console": "error",
+    "no-debugger": "error",
     "no-dupe-keys": 2,
     "no-dupe-args": "error",
     "no-duplicate-case": 2,
     "no-func-assign": 2,
+    "no-sparse-arrays":2,
     "no-multi-spaces": "error",
     "quotes": ["warn", "double"],
     "space-before-function-paren": ["error", "always"],
@@ -40,7 +43,6 @@
     "no-duplicate-imports": "error",
     "no-dupe-class-members": "error",
     "arrow-spacing": "error",
-    "no-redeclare": ["error", { "builtinGlobals": true }],
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "no-redeclare": ["error", { "builtinGlobals": true }]
   }
 }

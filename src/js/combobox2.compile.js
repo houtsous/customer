@@ -1,14 +1,12 @@
 $(function () {
-    var $body = $("html");
+    var $body = $("body");
     var currentId;
     var $tar;
     var $arrow;
     var $combo2;
     var $combo2_down;
-    $body.bind("click", function (event) {
+    $body.bind("click", function () {
         if (!$tar || !$arrow || !$combo2) return;
-        console.log($combo2);
-        console.log(event);
         $combo2.removeClass("show");
         $arrow.removeClass("fa-sort-asc").addClass("fa-sort-desc");
         $combo2.find(".combobox2_item").show().removeClass("check").children(".combobox2_icheck").removeClass("fa-check-square-o").addClass("fa-square-o").css("color", "#ccc");
@@ -72,10 +70,10 @@ $(function () {
                 $combobox2_item.removeClass("check").children(".combobox2_icheck").removeClass("fa-check-square-o").addClass("fa-square-o").css("color", "#ccc");
                 list.forEach(function (item, index) {
                     values.forEach(function (it, ind) {
-                        if (it === item[options.idField]) {
+                        if (it === item[options.valueField]) {
                             $combobox2_item.eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
                             selectItems.push($.extend(true, {}, item));
-                            selectValues.push(item[options.idField]);
+                            selectValues.push(item[options.valueField]);
                             selectTexts.push(item[options.textField]);
                             selectIndexs.push(item.index);
                             $combobox2_input.text(selectTexts.join(options.splitStr));
@@ -145,10 +143,10 @@ $(function () {
             var sv = setValues || $target.val().split(options.splitStr);
             (list || datas).forEach(function (item, index) {
                 sv.forEach(function (it, ind) {
-                    if (it === item[options.idField]) {
+                    if (it === item[options.valueField]) {
                         $combobox2_item.eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
                         selectItems.push($.extend(true, {}, item));
-                        selectValues.push(item[options.idField]);
+                        selectValues.push(item[options.valueField]);
                         selectTexts.push(item[options.textField]);
                         selectIndexs.push(item.index);
                         $combobox2_input.text(selectTexts.join(options.splitStr));
@@ -212,35 +210,8 @@ $(function () {
         }
 
         function creatId() {
-            id = "combobox2_" + $(".combobox2").length;
+            id = "combobox2_" + $(".combobox2_down").length;
         }
-
-        /*function init(){
-         if(options.singleSelect){
-         datas.forEach(function(item,index){
-         if($target.val() === item[options.idField]){
-         selectItem = $.extend(true,{},item);
-         selectValue = item[options.idField];
-         selectText = item[options.textField];
-         selectIndex = item.index;
-         $combobox2_input.text(selectText);
-         }
-         });
-         }else{
-         var sv = $target.val().split(options.splitStr);
-         datas.forEach(function(item,index){
-         sv.forEach(function(it,ind){
-         if(it === item[options.idField]){
-         selectItems.push($.extend(true,{},item));
-         selectValues.push(item[options.idField]);
-         selectTexts.push(item[options.textField]);
-         selectIndexs.push(item.index);
-         $combobox2_input.text(selectTexts.json(options.splitStr));
-         }
-         });
-         });
-         }
-         }*/
 
         function addIndex(list) {
             datas = list.map(function (item, index, aa) {
@@ -305,7 +276,7 @@ $(function () {
                 //debugger
                 var ind = $select.index();
                 var currentItem = datas[ind];
-                var currentValue = currentItem[options.idField];
+                var currentValue = currentItem[options.valueField];
                 var currentIndex = currentItem.index;
                 var currentText = currentItem[options.textField];
                 var st = $target.data("setType");
@@ -328,7 +299,7 @@ $(function () {
                 } else { //删除
                     $icheck.css("color", "#ccc");
                     for (var i = 0; i < selectItems2.length; i++) {
-                        if (selectItems2[i][options.idField] === currentValue) {
+                        if (selectItems2[i][options.valueField] === currentValue) {
                             selectItems2.splice(i, 1);
                             selectValues2.splice(i, 1);
                             selectIndexs2.splice(i, 1);
@@ -348,7 +319,7 @@ $(function () {
                     return item[options.textField];
                 });
                 selectValues2 = selectItems2.map(function (item) {
-                    return item[options.idField];
+                    return item[options.valueField];
                 });
                 $combobox2_arrow.removeClass("fa-sort-asc").addClass("fa-sort-desc");
                 $target.data("setType", "select");//设值方式
@@ -393,7 +364,6 @@ $(function () {
                 //selectItems2=[];selectValues2=[];selectIndexs2=[],selectTexts2 = [];
                 currentId = null, $tar = null, $arrow = null, $combo2 = null;$combo2_down = null;
                 $combobox2_arrow.removeClass("fa-sort-asc").addClass("fa-sort-desc");
-                $combobox2_down.removeClass("active");
                 $combobox2_search_inp.val("");
                 $combobox2_item.show();
             });
@@ -534,10 +504,10 @@ $(function () {
              * @property {object}   options_default              - 默认的值
              * @property {number}   options_default.offsetLeft   - 左偏移(默认:0)
              * @property {number}   options_default.offsetTop    - 上偏移(默认:2)
-             * @property {string}   options_default.splitStr     - 以什么分割input展示的textField,idField(默认:',')
+             * @property {string}   options_default.splitStr     - 以什么分割input展示的textField,valueField(默认:',')
              * @property {string}   options_default.triggerType  - 触发下拉的方式 arrow(箭头触发),
              * input(富文本触发),hover(悬浮触发)(默认:'input')
-             * @property {string}   options_default.idField      - 自定义主键值(默认:'value')
+             * @property {string}   options_default.valueField      - 自定义主键值(默认:'value')
              * @property {string}   options_default.textField    - 自定义文本(默认:'label')
              * @property {Object}   options_default.queryParams  - ajax查询条件参数(默认:{})
              * @property {boolean}  options_default.search       - 是否有搜索框(默认:true)
@@ -561,9 +531,9 @@ $(function () {
             options_default = {
                 offsetLeft: 0,
                 offsetTop: 2,
-                splitStr: ',',//以什么分割input展示的textField,idField
+                splitStr: ',',//以什么分割input展示的textField,valueField
                 triggerType: 'input',//arrow和input hover 3种方式 触发下拉的方式 点击箭头 input 点击这个框触发
-                idField: 'value',//value值
+                valueField: 'value',//value值
                 textField: 'label',
                 queryParams: {},//当服务端请求时所传递的参数
                 search: true,//是否有搜索框
@@ -581,7 +551,6 @@ $(function () {
                 inputHeight: targetHeight > 30 ? targetHeight : 30,
                 slideClass: '',//下拉框类样式
                 inputClass: '',//input框类样式
-                enable:true,
                 /**
                  * @description 自定义筛选方法
                  * @memberof combobox2

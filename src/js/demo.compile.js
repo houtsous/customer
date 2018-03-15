@@ -15,7 +15,7 @@ $(function(){
     $("#bbb").ayCombobox({
         url:'http://localhost:7001/customer/src/data/data.json',
         clear:true,search:false,responseHandler:function(data){
-            if(data.code ===1){
+            if(data.code === 1){
                 return data.list;
             }else{
                 return [];
