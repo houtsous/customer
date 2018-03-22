@@ -20,6 +20,15 @@ $(function(){
             }else{
                 return [];
             }
+        },onChange:function(oldValues,oldIndexs,oldItems,newValues,newIndexs,newItems){
+            console.log("onChange............");
+            console.log(oldValues,oldIndexs,oldItems,newValues,newIndexs,newItems);
         }
+    });
+
+    $("#ccc").bind("click",function(){
+        $("#bbb").ayCombobox("reload",{
+            url:'http://localhost:7001/customer/src/data/data2.json'
+        });
     });
 });

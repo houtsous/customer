@@ -1,0 +1,7 @@
+{
+  "code":1,
+  "list":[
+    {"value":"apple","label":"Apple"},{"value":"orange","label":"Orange"},
+    {"value":"mango","label":"Mango"},{"value":"blueberry","label":"Blueberry"}
+  ]
+}
