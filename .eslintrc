@@ -16,7 +16,7 @@
     // 定义对象的set存取器属性时，强制定义get
     "accessor-pairs": 2,
     //强制使用一致的缩进 off 或 0：表示不验证规则。warn 或 1：表示验证规则，当不满足时，给警告。error 或 2 ：表示验证规则，不满足时报错
-    "indent": ["error", 4],
+    "indent": ["warn", 2],
     //指定数组的元素之间要以空格隔开(,后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
     "array-bracket-spacing": [2, "never"],
     //在块级作用域外访问块内定义的变量是否报错提示
@@ -57,8 +57,17 @@
     "no-undefined": "error",
     //强制在 switch 的冒号左右有空格
     "switch-colon-spacing": "error",
+    //禁止使用eval
+    "no-eval":"error",
+    "no-with": "error",
+    //要求或禁止使用分号
+    "semi": ["error", "always"],
     //该规则强制分号出现在配置的位置
     "semi-style": ["error", "last"],
+    //禁止空块语句
+    "no-empty": ["error", { "allowEmptyCatch": true }],
+    //要求使用 === 和 !==
+    "eqeqeq": ["error", "always"],
     //禁止重复导入
     "no-duplicate-imports": "error",
     //不允许类成员中有重复的名称
