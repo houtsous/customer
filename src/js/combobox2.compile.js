@@ -6,14 +6,19 @@ $(function () {
     var $combo2;
     var $combo2_down;
     $body.bind("click", function () {
+        if($tar === undefined || !$tar.data("options")) return;
         var options = $tar.data("options");
-        if (options === undefined) return;
         $combo2.removeClass("show");
         $arrow.removeClass("fa-sort-asc").addClass("fa-sort-desc");
         $combo2.find(".combobox2_item").show().removeClass("check").children(".combobox2_icheck").removeClass("fa-check-square-o").addClass("fa-square-o").css("color", "#ccc");
-        $tar.data("selectItems").forEach(function (item, index) {
-            $combo2.find(".combobox2_item").eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
-        });
+        if(options.isMultiSelect){
+            $tar.data("selectItems").forEach(function (item, index) {
+                $combo2.find(".combobox2_item").eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
+            });
+        }else{
+            var selectItem = $tar.data("selectItem");
+            $combo2.find(".combobox2_item").eq(selectItem.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
+        }
         $combo2_down.removeClass("active");
         $combo2.find(".combobox2_search_inp").val("");
     });
@@ -33,15 +38,22 @@ $(function () {
         var selectTexts = [];
         var selectItems = [];
 
+        var selectIndex = null;
+        var selectValue = null;
+        var selectText = null;
+        var selectItem = null;
         var options_default = {};
         var options = {};
 
         var method = {
             "showPanel": function () {
                 $.manage[id]["$combobox2"].addClass("show");
+                $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-desc").addClass("fa-sort-asc");
             },
             "hidePanel": function () {
                 $.manage[id]["$combobox2"].removeClass("show");
+                $.manage[id]["$combobox2_down"].removeClass("active");
+                $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-asc").addClass("fa-sort-desc");
             },
             getId: function () {
                 return id;
@@ -150,27 +162,53 @@ $(function () {
 
         function findSelect(list, setValues) {
             //debugger
-            var sv = setValues || $target.val().split(options.splitStr);
-            (list || datas).forEach(function (item, index) {
-                sv.forEach(function (it, ind) {
-                    if (it === item[options.valueField]) {
+            var sv = null;
+            if(options.isMultiSelect){
+                sv = setValues || $target.val().split(options.splitStr);
+                (list || datas).forEach(function (item, index) {
+                    sv.forEach(function (it, ind) {
+                        if (it === item[options.valueField]) {
+                            $.manage[id]["$combobox2_item"].eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
+                            selectItems.push($.extend(true, {}, item));
+                            selectValues.push(item[options.valueField]);
+                            selectTexts.push(item[options.textField]);
+                            selectIndexs.push(item.index);
+                            $.manage[id]["$combobox2_input"].text(selectTexts.join(options.splitStr));
+                        }
+                    });
+                });
+                //最初选择/绑定的值
+                $target.data("dselectItems", selectItems);
+                $target.data("dselectValues", selectValues);
+                $target.data("dselectTexts", selectTexts);
+                $target.data("dselectIndexs", selectIndexs);
+                $target.data("selectItems", selectItems);
+                $target.data("selectValues", selectValues);
+                $target.data("selectTexts", selectTexts);
+                $target.data("selectIndexs", selectIndexs);
+            }else{
+                sv = $target.val();
+                (list || datas).forEach(function (item, index) {
+                    if (sv === item[options.valueField]) {
                         $.manage[id]["$combobox2_item"].eq(item.index - 1).addClass("check").children(".combobox2_icheck").removeClass("fa-square-o").addClass("fa-check-square-o").css("color", options.icheckColor);
-                        selectItems.push($.extend(true, {}, item));
-                        selectValues.push(item[options.valueField]);
-                        selectTexts.push(item[options.textField]);
-                        selectIndexs.push(item.index);
-                        $.manage[id]["$combobox2_input"].text(selectTexts.join(options.splitStr));
+                        $.manage[id]["$combobox2_input"].text(item[options.textField]);
+                        //最初选择/绑定的值
+                        selectItem = $.extend(true, {}, item);
+                        selectValue = item[options.valueField];
+                        selectIndex = item.index;
+                        selectText = item[options.textField];
+                        $target.data("dselectItem", selectItem);
+                        $target.data("dselectValue", selectValue);
+                        $target.data("dselectText", selectText);
+                        $target.data("dselectIndex", selectIndex);
+                        $target.data("selectItem", selectItem);
+                        $target.data("selectValue", selectValue);
+                        $target.data("selectText", selectText);
+                        $target.data("selectIndex", selectIndex);
+                        return;
                     }
                 });
-            });
-            $target.data("dselectItems", selectItems);
-            $target.data("dselectValues", selectValues);
-            $target.data("dselectTexts", selectTexts);
-            $target.data("dselectIndexs", selectIndexs);
-            $target.data("selectItems", selectItems);
-            $target.data("selectValues", selectValues);
-            $target.data("selectTexts", selectTexts);
-            $target.data("selectIndexs", selectIndexs);
+            }
         }
 
         function loadList(){
@@ -204,7 +242,9 @@ $(function () {
             html.push(options.height + "px");
             html.push(';" >');
             html.push('</ul>');
-            html.push('<div class="combobox2_btns"><div class="combobox2_sure">确定</div></div>');
+            if(options.isMultiSelect){
+                html.push('<div class="combobox2_btns"><div class="combobox2_sure">确定</div></div>');
+            }
             html.push('</div>');
             var $combobox2 = $(html.join(""));
             $combobox2_wrap.append($combobox2);
@@ -293,47 +333,81 @@ $(function () {
             var currentText = currentItem[options.textField];
             var st = $target.data("setType");
             if (st === "method") {
-                selectItems2 = $target.data("selectItems").slice(0);
-                selectValues2 = $target.data("selectValues").slice(0);
-                selectIndexs2 = $target.data("selectIndexs").slice(0);
-                selectTexts2 = $target.data("selectTexts").slice(0);
-            }
-            var $icheck = $select.toggleClass("check").children(".combobox2_icheck");
-            $icheck.toggleClass("fa-square-o fa-check-square-o");
-            if ($select.hasClass("check")) { //添加
-                $icheck.css("color", options.icheckColor);
-                var copyItem = $.extend({}, currentItem);
-                selectItems2.push(copyItem);
-                selectValues2.push(currentValue);
-                selectIndexs2.push(currentIndex);
-                selectTexts2.push(currentText);
-                //options.onSelect && options.onSelect(currentValue, currentIndex,currentItem);
-            } else { //删除
-                $icheck.css("color", "#ccc");
-                for (var i = 0; i < selectItems2.length; i++) {
-                    if (selectItems2[i][options.valueField] === currentValue) {
-                        selectItems2.splice(i, 1);
-                        selectValues2.splice(i, 1);
-                        selectIndexs2.splice(i, 1);
-                        selectTexts2.splice(i, 1);
-                        break;
-                    }
+                if(options.isMultiSelect){
+                    selectItems2 = $target.data("selectItems").slice(0);
+                    selectValues2 = $target.data("selectValues").slice(0);
+                    selectIndexs2 = $target.data("selectIndexs").slice(0);
+                    selectTexts2 = $target.data("selectTexts").slice(0);
                 }
             }
-            //排序
-            selectItems2 = selectItems2.sort(function (a, b) {
-                return a.index > b.index;
-            });
-            selectIndexs2 = selectItems2.map(function (item) {
-                return item.index;
-            });
-            selectTexts2 = selectItems2.map(function (item) {
-                return item[options.textField];
-            });
-            selectValues2 = selectItems2.map(function (item) {
-                return item[options.valueField];
-            });
-            $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-asc").addClass("fa-sort-desc");
+            var $icheck = $select.children(".combobox2_icheck");
+            if (!$select.hasClass("check")) { //添加
+                if(options.isMultiSelect){
+                    var copyItem = $.extend({}, currentItem);
+                    selectItems2.push(copyItem);
+                    selectValues2.push(currentValue);
+                    selectIndexs2.push(currentIndex);
+                    selectTexts2.push(currentText);
+                }else{
+                    $.manage[id]["$combobox2_item"].removeClass("check");
+                    $.manage[id]["$combobox2_icheck"].removeClass("fa-check-square-o").addClass("fa-square-o").css("color","#ccc");
+                    options.onChange(selectItem,selectIndex,selectValue,currentItem,currentIndex,currentValue);
+                    selectItem = currentItem,selectIndex = currentIndex,selectValue = currentValue;selectText = currentText;
+                    $target.data("selectItem",currentItem);
+                    $target.data("selectValue",currentValue);
+                    $target.data("selectIndex",currentIndex);
+                    $target.data("selectText",currentText);
+                    $target.val(currentValue);
+                    $.manage[id]["$combobox2_input"].text(currentText);
+                    method.hidePanel();
+                }
+                $select.addClass("check");
+                $icheck.removeClass("fa-square-o").addClass("fa-check-square-o");
+                $icheck.css("color", options.icheckColor);
+                //options.onSelect && options.onSelect(currentValue, currentIndex,currentItem);
+            } else { //删除
+                if(options.isMultiSelect){
+                    $select.addClass("check");
+                    $icheck.css("color", "#ccc");
+                    $icheck.removeClass("fa-check-square-o").addClass("fa-square-o");
+                    for (var i = 0; i < selectItems2.length; i++) {
+                        if (selectItems2[i][options.valueField] === currentValue) {
+                            selectItems2.splice(i, 1);
+                            selectValues2.splice(i, 1);
+                            selectIndexs2.splice(i, 1);
+                            selectTexts2.splice(i, 1);
+                            break;
+                        }
+                    }
+                    //排序
+                    selectItems2 = selectItems2.sort(function (a, b) {
+                        return a.index > b.index;
+                    });
+                    selectIndexs2 = selectItems2.map(function (item) {
+                        return item.index;
+                    });
+                    selectTexts2 = selectItems2.map(function (item) {
+                        return item[options.textField];
+                    });
+                    selectValues2 = selectItems2.map(function (item) {
+                        return item[options.valueField];
+                    });
+                }else{
+                    currentItem = null,currentIndex = null,currentValue = null,selectText = null;
+                    options.onChange(selectItem,selectIndex,selectValue,currentItem,currentIndex,currentValue);
+                    $target.data("selectItem",currentItem);
+                    $target.data("selectValue",currentValue);
+                    $target.data("selectIndex",currentIndex);
+                    $target.data("selectText",currentText);
+                    $target.val("");
+                    $.manage[id]["$combobox2_input"].text("");
+                    method.hidePanel();
+                }
+                $select.addClass("check");
+                $icheck.css("color", "#ccc");
+                $icheck.removeClass("fa-check-square-o").addClass("fa-square-o");
+            }
+            //$.manage[id]["$combobox2_arrow"].removeClass("fa-sort-asc").addClass("fa-sort-desc");
             $target.data("setType", "select");//设值方式
         }
         function bindList(){
@@ -380,20 +454,15 @@ $(function () {
                     oldItems = $target.data("dselectItems") || [];
                     oldValues = $target.data("dselectValues") || [];
                     oldIndexs = $target.data("dselectIndexs") || [];
-                    options.onChange(oldValues,oldIndexs,oldItems, selectValues, selectIndexs, selectItems);
-                } else {
-                    options.onChange(oldValues, oldIndexs, oldItems, selectValues, selectIndexs, selectItems);
                 }
+                options.onChange(oldValues,oldIndexs,oldItems, selectValues, selectIndexs, selectItems);
                 //缓存上次选中的结果集
                 oldValues = selectValues.slice(0);
                 oldItems = selectItems.slice(0);
                 oldIndexs = selectIndexs.slice(0);
                 oldTexts = selectTexts.slice(0);
-                method.hidePanel();
-                //selectItems2=[];selectValues2=[];selectIndexs2=[],selectTexts2 = [];
                 currentId = null, $tar = null, $arrow = null, $combo2 = null;$combo2_down = null;
-                $.manage[id]["$combobox2_down"].removeClass("active");
-                $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-asc").addClass("fa-sort-desc");
+                method.hidePanel();
                 $.manage[id]["$combobox2_search_inp"].val("");
                 $.manage[id]["$combobox2_item"].show();
             });
@@ -402,8 +471,8 @@ $(function () {
                 event.stopPropagation();
                 if ($.manage[id]["$combobox2"].hasClass("show")) {
                     $.manage[id]["$combobox2"].removeClass("show");//关闭操作
-                    $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-asc").addClass("fa-sort-desc");
                     $.manage[id]["$combobox2_down"].removeClass("active");
+                    method.hidePanel();
                     selectItems2 = [], selectIndexs2 = [], selectTexts2 = [], selectValues2 = [];
                 } else {
                     //判断是否有其他打开项
@@ -415,13 +484,13 @@ $(function () {
                     }
                     if (document.body.offsetHeight - $.manage[id]["$combobox2_down"][0].getBoundingClientRect().bottom - options.offsetTop < combobox2_height) {
                         //向上展示
-                        $.manage[id]["$combobox2"].css({"top": $target[0].offsetTop - combobox2_height - options.offsetTop + "px"});
+                        $.manage[id]["$combobox2"].css({"top": $target[0].offsetTop - combobox2_height - 2 - options.offsetTop + "px"});//2 表示边框
                     } else {
                         //向下展示
                         $.manage[id]["$combobox2"].css({"top": $target[0].offsetTop + options.inputHeight + options.offsetTop + "px"});
                     }
-                    $.manage[id]["$combobox2"].addClass("show");//打开操作
-                    $.manage[id]["$combobox2_arrow"].removeClass("fa-sort-desc").addClass("fa-sort-asc");
+                    //打开操作
+                    method.showPanel();
                     selectItems2 = selectItems.slice(0);
                     selectIndexs2 = selectIndexs.slice(0);
                     selectTexts2 = selectTexts.slice(0);
@@ -472,15 +541,25 @@ $(function () {
                     $.manage[id]["$combobox2_item"].removeClass("check");
                     $.manage[id]["$combobox2_icheck"].removeClass("fa-check-square-o").addClass("fa-square-o").css("color", "#ccc");
                     if ($.manage[id].clearFirst || $target.data("setType")==="method") {
-                        options.onChange(selectValues, selectIndexs, selectItems, [], [], []);
-                        selectItems = [], selectIndexs = [], selectTexts = [], selectValues = [];
-                        selectItems2 = [], selectIndexs2 = [], selectTexts2 = [], selectValues2 = [];
-                        oldIndexs = [], oldValues = [], oldTexts = [], oldItems = [];
+                        if(options.isMultiSelect){
+                            options.onChange(selectValues, selectIndexs, selectItems, [], [], []);
+                            selectItems = [], selectIndexs = [], selectTexts = [], selectValues = [];
+                            selectItems2 = [], selectIndexs2 = [], selectTexts2 = [], selectValues2 = [];
+                            oldIndexs = [], oldValues = [], oldTexts = [], oldItems = [];
+                        }else{
+                            options.onChange(selectValue, selectIndex, selectItem, [], [], []);
+                            selectValue=null, selectIndex=null, selectItem=null,selectText=null;
+                        }
                     } else {
-                        selectItems = [], selectIndexs = [], selectTexts = [], selectValues = [];
-                        selectItems2 = [], selectIndexs2 = [], selectTexts2 = [], selectValues2 = [];
-                        options.onChange(oldValues,oldIndexs, oldItems, selectValues, selectIndexs, selectItems);
-                        oldIndexs = [], oldValues = [], oldTexts = [], oldItems = [];
+                        if(options.isMultiSelect){
+                            selectItems = [], selectIndexs = [], selectTexts = [], selectValues = [];
+                            selectItems2 = [], selectIndexs2 = [], selectTexts2 = [], selectValues2 = [];
+                            options.onChange(oldValues,oldIndexs, oldItems, selectValues, selectIndexs, selectItems);
+                            oldIndexs = [], oldValues = [], oldTexts = [], oldItems = [];
+                        }else{
+                            options.onChange(selectValue, selectIndex, selectItem, [], [], []);
+                            selectValue=null, selectIndex=null, selectItem=null,selectText=null;
+                        }
                     }
                     $target.data("selectItems", selectItems);
                     $target.data("selectIndexs", selectIndexs);
@@ -564,6 +643,7 @@ $(function () {
                 triggerType: 'input',//arrow和input hover 3种方式 触发下拉的方式 点击箭头 input 点击这个框触发
                 valueField: 'value',//value值
                 textField: 'label',
+                isMultiSelect: false,
                 queryParams: {},//当服务端请求时所传递的参数
                 search: true,//是否有搜索框
                 searchStrCase: false,//搜索条件是否区分大小写

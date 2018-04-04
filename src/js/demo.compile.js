@@ -31,4 +31,14 @@ $(function(){
             url:'http://localhost:7001/customer/src/data/data2.json'
         });
     });
+
+    $("#eee").ayCombobox({
+        data:[
+            {value:'ljr',label:'梁静茹'},{value:'zjl',label:'周杰伦'},
+            {value:'ljj',label:'林俊杰'},{value:'she',label:'SHE'}],
+        clear:true,search:true,isMultiSelect:false,onChange:function(oldValues,oldIndexs,oldItems,newValues,newIndexs,newItems){
+            console.log("onChange............");
+            console.log(oldValues,oldIndexs,oldItems,newValues,newIndexs,newItems);
+        }
+    });
 });

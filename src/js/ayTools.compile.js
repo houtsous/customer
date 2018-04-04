@@ -54,7 +54,7 @@
          */
         getParameter: function (parameter,url) {
             var par_obj = {};
-            var urler = url || location.href.trim();
+            var urler = url || location.search.trim();
             urler = urler.trim().replace("?","");
             if (urler) {
                 var arr_url = url.split("&");
@@ -81,7 +81,7 @@
          */
         getParameters: function () {
             var par_obj = {};
-            var url = arguments[0] || location.href;
+            var url = arguments[0] || location.search;
             var splitStr = arguments[1] || "&";
             url = url.trim().replace("?","");
             if (url) {
