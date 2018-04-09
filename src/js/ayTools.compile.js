@@ -1,5 +1,11 @@
 ﻿(function () {
     /**
+     * @private
+     * @constant
+     * */
+    const appVersion = navigator.appVersion.toLocaleLowerCase(),
+      ua = navigator.userAgent;
+    /**
      * @namespace ayTools
      * @description ayTools是常用工具类<br>
      * 包含最基础、最常用的操作 如：日期处理、mobile平台的兼容处理等等
@@ -54,9 +60,9 @@
          */
         getParameter: function (parameter,url) {
             var par_obj = {};
-            var urler = url || location.search.trim();
-            urler = urler.trim().replace("?","");
-            if (urler) {
+            var url = url || location.search.trim();
+            url = url.trim().replace("?","");
+            if (url) {
                 var arr_url = url.split("&");
                 for (var i = 0; i < arr_url.length; i++) {
                     var current = decodeURIComponent(arr_url[i]);
@@ -81,7 +87,7 @@
          */
         getParameters: function () {
             var par_obj = {};
-            var url = arguments[0] || location.search;
+            var url = arguments[0] || location.search.trim();
             var splitStr = arguments[1] || "&";
             url = url.trim().replace("?","");
             if (url) {
@@ -126,7 +132,7 @@
                 return isN(re);
 
             } else if (document.defaultView
-                && document.defaultView.getComputedStyle) {
+              && document.defaultView.getComputedStyle) {
                 name = name.replace(/[A-Z]/g, "-$1");
                 name = name.toLowerCase();
                 var s = document.defaultView.getComputedStyle(elem, "");
@@ -199,10 +205,10 @@
 
             seperator = (seperator && typeof seperator === "string") ? seperator : ",";
             var originStr = parseFloat((money + "").replace(/[^\d\.-]/g, "")).toFixed(digits) + "",
-                intArray = originStr.split(".")[0].split("").reverse(),
-                digitPart = originStr.split(".")[1],
-                temp = "",
-                ret = "";
+              intArray = originStr.split(".")[0].split("").reverse(),
+              digitPart = originStr.split(".")[1],
+              temp = "",
+              ret = "";
             for (var i = 0; i < intArray.length; i++) {
                 temp += intArray[i];
                 if ((i + 1) % 3 == 0 && (i + 1) != intArray.length) {
@@ -228,8 +234,8 @@
                 var formate = formate || "yyyy-MM-dd hh:mm:ss.S";
                 var d = new Date(date);
                 formate = formate.replace("yyyy",d.getFullYear()).replace("MM",d.getMonth())
-                    .replace("MM",d.getMonth()).replace("dd",d.getDate()+1).replace("hh",d.getHours)
-                    .replace("mm",d.getMinutes).replace("mm",d.getSeconds()).replace("mm",d.getMilliseconds());
+                  .replace("MM",d.getMonth()).replace("dd",d.getDate()+1).replace("hh",d.getHours)
+                  .replace("mm",d.getMinutes).replace("mm",d.getSeconds()).replace("mm",d.getMilliseconds());
                 return formate;
             }catch (e){
                 console.log(e.message);
@@ -244,7 +250,7 @@
          */
         digits: function (number) {
             var digits = 0,
-                numStr = number.toString();
+              numStr = number.toString();
             if (numStr.indexOf('.') >= 0) {
                 digits = numStr.split('.')[1].length;
             }
@@ -482,6 +488,27 @@
             }
         },
         /**
+         * @description 生成UUID
+         * @example ayTools.getUUID()
+         * @method 生成UUID
+         */
+        getUUID: function() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0,
+                  v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        },
+        /**
+         * @description 获取工程的绝对路径
+         * @example ayTools.getProjectAbsPath()
+         * @method 获取工程的绝对路径
+         */
+        getProjectAbsPath: function() {
+            var arr = window.location.href.split("/");
+            return arr[0] + "//" + arr[2] + "/" + arr[3] + "/";
+        },
+        /**
          * @description 设置cookie信息；默认有效期是天
          * @example ayTools.setCookie({username:'小张',age:20},1)
          * @method 设置cookie
@@ -536,8 +563,19 @@
                 for (var i = keys.length; i--;)
                     document.cookie=keys[i]+'=0;expires=' + new Date(-1).toGMTString()
             }
+        },
+        // 注册命名空间
+        register: function() {
+            var arg = arguments[0];
+            var arr = arg.split('.');
+            var str = '';
+            for(var i = 0; i < arr.length; i++) {
+                str = i == 0 ? arr[i] : (str + '.' + arr[i]);
+                var sval = "   if(typeof " + str + "=='undefined' ) { " + str + "= new Object(); } ";
+                eval(sval);
+            }
         }
-};
+    };
     window.ayTools = ayTools;
     /**
      * 兼容AMD和非AMD规范
