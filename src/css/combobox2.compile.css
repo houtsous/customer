@@ -6,20 +6,33 @@ li{list-style: none;}
     color: #555;display: none;
     border: solid thin #c1bfbf;border-radius: 4px;
 }
-.combobox2_down{padding: 4px 34px 4px 8px;position: relative;font-size: 0;border-radius: 4px;border: 1px solid #bcd0dc;background-color: white;}
+.combobox2_down{padding: 4px 34px 4px 8px;position: relative;font-size: 0;border-radius: 4px;border: 1px solid #dcdcdc;background-color: white;}
 .combobox2_down.active{box-shadow: 0 0 2px 1px #039efb;border: 1px solid transparent;}
 .combobox2_down.trigger{cursor: pointer;}
 .combobox2_down .combobox2_input{width:100%;font-size: 14px;color:#333;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;height: 100%;}
 .combobox2_down span.combobox2_clear{position: absolute;vertical-align: middle;font-size: 14px;top:50%;transform: translateY(-50%);right:20px;
     font-weight: bold;line-height: 15px;cursor: pointer;color:#66afe9;display: none;}
 .combobox2_down span.combobox2_arrow{position: absolute;right: 4px;vertical-align: middle;text-align: center;
-    color:#555;font-size: 15px;height:20px;display: block;width:15px;top:50%;transform: translateY(-50%);}
+    color:#555;font-size: 15px;display: block;width:15px;top:50%;transform: translateY(-50%);}
 .combobox2_down span.combobox2_arrow.fa-sort-asc{line-height: 28px;}
 .combobox2_down span.combobox2_arrow.trigger{cursor: pointer;}
 .combobox2_search{position: relative;margin: 10px auto 0;width: 95%;border: solid thin #cfcfcf;}
 .combobox2_search>.combobox2_search_inp{width:100%;border: none !important;padding-left: 5px !important;height:25px !important;}
+.combobox2_search>.combobox2_search_inp:focus{box-shadow: 0 0 4px 1px rgba(82,168,236,.6);border: none !important;}
+.combobox2_search_inp::-webkit-input-placeholder { /* WebKit browsers */
+    color:#ccc;font-size: 12px;
+}
+.combobox2_search_inp:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:#ccc;font-size: 12px;
+}
+.combobox2_search_inp::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:#ccc;font-size: 12px;
+}
+.combobox2_search_inp:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:#ccc;font-size: 12px;
+}
 .combobox2_list{
-    font-size: 0;padding: 10px 8px;overflow: auto;
+    font-size: 0;padding: 8px;overflow: auto;margin: 5px 0;
 }
 .combobox2_item>div{display: inline-block;vertical-align: top;}
 .combobox2_list>.combobox2_item{margin-top:8px;}
@@ -28,12 +41,18 @@ li{list-style: none;}
 
 
 .combobox2_list .desc{font-size:15px;width:calc(100% - 25px)}
-.combobox2_btns{margin: 0 auto;font-size: 0;text-align: center;padding: 5px 0;border-top:solid thin #c1bfbf;}
-.combobox2_btns>div{display: inline-block;vertical-align: middle;font-size: 14px;text-align: center;height:30px;width:50px;line-height: 30px;border-radius: 4px;}
-.combobox2_btns>div.combobox2_sure{background-color:#1379FC;color:white;cursor: pointer;}
-.combobox2_btns>div.combobox2_sure:active{font-size: 13px;background-color: #0268eb;}
-.combobox2_btns>div.combobox2_reset{color:#0386FC;border: solid thin #ccc;margin-left: 15%;background-color: #eee;cursor: pointer;}
-.combobox2_btns>div.combobox2_reset:active{font-size: 13px;background-color: #ccc;}
+.combobox2_btns{margin: 0 auto;font-size: 0;border-top:solid thin #c1bfbf;height:40px;padding: 7px 0;}
+.combobox2_btns>div{display: inline-block;font-size: 14px;text-align: center;}
+.combobox2_btns>.combobox2_sure{background-color:#40AFFE;color:white;cursor: pointer;float:right;margin-right: 8px;
+    height:26px;line-height: 26px;width:45px;border-radius: 4px;}
+.combobox2_btns>.combobox2_select{font-size: 0;width:auto;float:left;margin-left: 8px;margin-top: 4.5px;}
+.combobox2_checklab{font-size: 13px;display: inline-block;}
+.combobox2_checkbox{font-size: 15px;display: inline-block;color:#ddd;margin-left: 5px;cursor: pointer;}
+.combobox2_checkbox.fa-check-square{color:#5FB878;}
+
+.combobox2_sure:active{font-size: 13px;background-color: #0268eb;}
+.combobox2_reset{color:#0386FC;border: solid thin #ccc;margin-left: 15%;background-color: #eee;cursor: pointer;}
+.combobox2_reset:active{font-size: 13px;background-color: #ccc;}
 
 .custom-common-form.view .combobox2{display: none !important;}
 .custom-common-form.view .combobox2_down{box-shadow: none !important;border: 1px solid #bcd0dc !important;cursor: inherit !important;}

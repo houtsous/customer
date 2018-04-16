@@ -6,7 +6,7 @@ $(function(){
         data:[
             {value:'java',label:'JAVA'},{value:'c',label:'C'},
             {value:'php',label:'PHP'},{value:'python',label:'PYTHON'},
-            {value:'c++',label:'C++'},{value:'c#',label:'C#'}],
+            {value:'c++',label:'C++'},{value:'c#',label:'C#'},{value:'rube',label:'Rube'},{value:'jsp',label:'Jsp'}],
         isMultiSelect:true,
         clear:true,search:true,onChange:function(oldValues,oldItems,oldIndexs,newValues,newItems,newIndexs){
             console.log("onChange............");
@@ -14,7 +14,7 @@ $(function(){
         }
     });
     $("#test").click(function(){
-        $("#aaa").ayCombobox("clear");
+        $("#bbb").ayCombobox("clear");
     });
     $("#bbb").ayCombobox({
         url:'http://localhost:7001/customer/src/data/data.json',
@@ -31,8 +31,16 @@ $(function(){
         }
     });
 
-    $("#ccc").bind("click",function(){
+    $("#rebinds").bind("click",function(){
         $("#bbb").ayCombobox("reload",{
+            url:'http://localhost:7001/customer/src/data/data2.json'
+            /*data:[{"value":"apple","label":"Apple"},{"value":"orange","label":"Orange"},
+                {"value":"mango","label":"Mango"},{"value":"blueberry","label":"Blueberry"}]*/
+        });
+    });
+
+    $("#rebind").bind("click",function(){
+        $("#eee").ayCombobox("reload",{
             url:'http://localhost:7001/customer/src/data/data2.json'
         });
     });
@@ -41,12 +49,22 @@ $(function(){
         data:[
             {value:'ljr',label:'梁静茹'},{value:'zjl',label:'周杰伦'},
             {value:'ljj',label:'林俊杰'},{value:'she',label:'SHE'}],
-        clear:true,search:true,isMultiSelect:false,onChange:function(oldValues,oldItems,oldIndexs,newValues,newItems,newIndexs){
+        isMultiSelect:false,responseHandler:function(data){
+            if(data.code === 1){
+                return data.list;
+            }else{
+                return [];
+            }
+        },
+        clear:true,search:false,onChange:function(oldValues,oldItems,oldIndexs,newValues,newItems,newIndexs){
             console.log("onChange............");
             console.log(oldValues,oldItems,oldIndexs,newValues,newItems,newIndexs);
         }
     });
-    var $subject = $("[name='subject']");
+
+    //重新绑定--多选
+
+    /*var $subject = $("[name='subject']");
     $("#setValues").click(function(){
         var values = [];
         $subject.filter(":checked").each(function(i,e){
@@ -54,4 +72,12 @@ $(function(){
         });
         $("#aaa").ayCombobox("setValues",values);
     });
+
+    var $fruit = $("[name='fruit']");
+    $("#setValue").click(function(){
+        var value = $fruit.filter(":checked").val();
+        $("#eee").ayCombobox("setValue",value);
+    });*/
+
+
 });
